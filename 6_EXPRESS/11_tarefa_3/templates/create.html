@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar conta</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/accounts">Contas</a></li>
+        </ul>
+    </nav>
+    <h1>Criar conta</h1>
+    <form action="/accounts/create" method="post">
+        <label for="accountName">Nome da conta:</label>
+        <input type="text" id="accountName" name="accountName">
+        <button type="submit">Criar conta</button>
+    </form>
+</body>
+
+</html>
