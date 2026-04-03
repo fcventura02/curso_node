@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contas</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/accounts">Contas</a></li>
+        </ul>
+    </nav>
+    <h1>Contas</h1>
+    <p>Crie sua conta em <a href="/accounts/create">Criar conta</a></p>
+    <h3>Listagem de contas</h3>
+    <div id="accounts-list" class="card-container">
+
+    </div>
+    <script>
+        function deleteAccount(accountName) {
+            fetch(`/accounts/delete/${accountName}`, {
+                method: "DELETE"
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    alert(data.message);
+                    getAccounts();
+                });
+        }
+        function depositAccount(accountName) {
+            const amount = prompt("Digite o valor do depósito:");
+            if (!amount) return;
+            return fetch(`/accounts/deposit/${accountName}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ amount })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    alert(data.message);
+                    return data.balance;
+                }).catch(error => {
+                    console.log(error);
+                    message = error.message;
+                    alert(message);
+                });
+        }
+        function withdrawAccount(accountName) {
+            const amount = prompt("Digite o valor do saque:");
+            if (!amount) return;
+            return fetch(`/accounts/withdraw/${accountName}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ amount })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    alert(data.message);
+                    return data.balance;
+                }).catch(error => {
+                    console.log(error);
+                    message = error.message;
+                    balance = error.balance;
+                    alert(message);
+                    return balance;
+                });
+        }
+        function getAccounts() {
+            fetch("/accounts/list")
+                .then(response => response.json())
+                .then(data => {
+                    printAccounts(data);
+                });
+        }
+        function printAccounts(data) {
+            const accountsList = document.getElementById("accounts-list");
+            data.forEach(account => {
+                let amount = account.balance;
+                if (amount < 0) {
+                    amount = 0;
+                }
+                const accountCard = document.createElement("div");
+                const accountActions = document.createElement("div");
+                const accountName = document.createElement("p");
+                const accountBalance = document.createElement("p");
+                const accountDelete = document.createElement("button");
+                const accountDeposit = document.createElement("button");
+                const accountWithdraw = document.createElement("button");
+                accountName.textContent = `Conta: ${account.name}`;
+                accountBalance.textContent = `Saldo: R$ ${amount}`;
+                accountDelete.textContent = "Excluir";
+                accountDeposit.textContent = "Depositar";
+                accountWithdraw.textContent = "Sacar";
+                accountDelete.onclick = () => deleteAccount(account.name);
+                accountDeposit.onclick = async () => {
+                    amount = await depositAccount(account.name);
+                    accountBalance.textContent = `Saldo: R$ ${amount}`;
+                }
+                accountWithdraw.onclick = async () => {
+                    amount = await withdrawAccount(account.name);
+                    accountBalance.textContent = `Saldo: R$ ${amount}`;
+                }
+                accountCard.classList.add("card");
+                accountActions.classList.add("card-actions");
+                accountCard.appendChild(accountName);
+                accountCard.appendChild(accountBalance);
+                accountActions.appendChild(accountDelete);
+                accountActions.appendChild(accountDeposit);
+                accountActions.appendChild(accountWithdraw);
+                accountCard.appendChild(accountActions);
+                accountsList.appendChild(accountCard);
+            });
+        }
+        getAccounts();
+    </script>
+</body>
+
+</html>
