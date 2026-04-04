@@ -20,7 +20,8 @@ app.get("/", (req, res) => {
 });
 
 app.get("/dashboard", (req, res) => {
-    res.render("dashboard");
+    const list = [{ id: 1, item: "item 1" }, { id: 2, item: "item 2" }, { id: 3, item: "item 3" }]
+    res.render("dashboard", { list });
 });
 
 app.listen(3000, () => {
