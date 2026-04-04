@@ -24,6 +24,16 @@ app.get("/dashboard", (req, res) => {
     res.render("dashboard", { list });
 });
 
+app.get("/post", (req, res) => {
+    const post = {
+        title: "Post 1",
+        category: "Programação",
+        body: "Conteúdo do post 1 ",
+        comments: 4,
+    }
+    res.render("blogpost", { post });
+});
+
 app.listen(3000, () => {
     console.log("Server is running on port 3000");
     console.log("http://localhost:3000");
