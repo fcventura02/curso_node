@@ -5,3 +5,13 @@
 <p>Nome: {{user.name}}</p>
 <p>Idade: {{user.age}}</p>
 <p>Trabalho: {{job}}</p>
+
+{{#if auth}}
+<p>Você está logado! <a href="/dashboard">Acessar dashboard</a></p>
+{{/if}}
+
+{{#if approved}}
+<p>Aprovado!</p>
+{{else}}
+<p>o seu usuário precisa de aprovação para ter acesso ao dashboard!</p>
+{{/if}}

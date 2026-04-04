@@ -13,7 +13,14 @@ app.get("/", (req, res) => {
     };
 
     const job = "Programador";
-    res.render("home", { user, job });
+
+    const auth = true;
+    const approved = false;
+    res.render("home", { user, job, auth, approved });
+});
+
+app.get("/dashboard", (req, res) => {
+    res.render("dashboard");
 });
 
 app.listen(3000, () => {
