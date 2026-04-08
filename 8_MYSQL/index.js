@@ -38,6 +38,22 @@ app.post('/books/insertbook', function (req, res) {
     })
 })
 
+app.get('/books', function (req, res) {
+    const query = `SELECT * FROM books`
+
+    connection.query(query, function (err, data) {
+        if (err) {
+            console.log(err)
+        }
+
+        const books = data
+
+        console.log(data)
+
+        res.render('books', { books })
+    })
+})
+
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',

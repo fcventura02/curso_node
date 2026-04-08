@@ -71,3 +71,18 @@ h1 {
 .form input[type="submit"]:disabled {
     background-color: #0056b3;
 }
+
+.books-container {
+    margin-top: 2em;
+}
+
+.books-container div {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 0.5em;
+}
+
+.books-container .bold {
+    font-weight: bold;
+}
