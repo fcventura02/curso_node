@@ -28,9 +28,10 @@ app.post('/books/insertbook', function (req, res) {
     const title = req.body.title
     const pageqty = req.body.pageqty
 
-    const query = `INSERT INTO books (title, pageqty) VALUES ('${title}', ${pageqty})`
+    const query = `INSERT INTO books (??, ??) VALUES (?, ?)`
+    const data = ['title', 'pageqty', title, pageqty]
 
-    pool.query(query, function (err) {
+    pool.query(query, data, function (err) {
         if (err) {
             console.log(err)
         }
@@ -58,9 +59,9 @@ app.get('/books', function (req, res) {
 app.get('/books/:id', function (req, res) {
     const id = req.params.id
 
-    const query = `SELECT * FROM books WHERE idbooks = ${id}`
-
-    pool.query(query, function (err, data) {
+    const query = `SELECT * FROM books WHERE ?? = ?`
+    const data = ['idbooks', id]
+    pool.query(query, data, function (err, data) {
         if (err) {
             console.log(err)
         }
@@ -76,9 +77,9 @@ app.get('/books/:id', function (req, res) {
 app.get('/books/edit/:id', function (req, res) {
     const id = req.params.id
 
-    const query = `SELECT * FROM books WHERE idbooks = ${id}`
-
-    pool.query(query, function (err, data) {
+    const query = `SELECT * FROM books WHERE ?? = ?`
+    const data = ['idbooks', id]
+    pool.query(query, data, function (err, data) {
         if (err) {
             console.log(err)
         }
@@ -96,9 +97,9 @@ app.post('/books/updatebook', function (req, res) {
     const title = req.body.title
     const pageqty = req.body.pageqty
 
-    const query = `UPDATE books SET title = '${title}', pageqty = ${pageqty} WHERE idbooks = ${id}`
-
-    pool.query(query, function (err) {
+    const query = `UPDATE books SET ?? = ?, ?? = ? WHERE ?? = ?`
+    const data = ['title', title, 'pageqty', pageqty, 'idbooks', id]
+    pool.query(query, data, function (err) {
         if (err) {
             console.log(err)
         }
@@ -110,9 +111,9 @@ app.post('/books/updatebook', function (req, res) {
 app.post('/books/remove', function (req, res) {
     const id = req.body.id
 
-    const query = `DELETE FROM books WHERE idbooks = ${id}`
-
-    pool.query(query, function (err) {
+    const query = `DELETE FROM books WHERE ?? = ?`
+    const data = ['idbooks', id]
+    pool.query(query, data, function (err) {
         if (err) {
             console.log(err)
         }
