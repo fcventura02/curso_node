@@ -1,6 +1,7 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
-const mysql = require('mysql');
+
+const pool = require('./db/connections')
 
 const app = express();
 
@@ -29,7 +30,7 @@ app.post('/books/insertbook', function (req, res) {
 
     const query = `INSERT INTO books (title, pageqty) VALUES ('${title}', ${pageqty})`
 
-    connection.query(query, function (err) {
+    pool.query(query, function (err) {
         if (err) {
             console.log(err)
         }
@@ -41,7 +42,7 @@ app.post('/books/insertbook', function (req, res) {
 app.get('/books', function (req, res) {
     const query = `SELECT * FROM books`
 
-    connection.query(query, function (err, data) {
+    pool.query(query, function (err, data) {
         if (err) {
             console.log(err)
         }
@@ -59,7 +60,7 @@ app.get('/books/:id', function (req, res) {
 
     const query = `SELECT * FROM books WHERE idbooks = ${id}`
 
-    connection.query(query, function (err, data) {
+    pool.query(query, function (err, data) {
         if (err) {
             console.log(err)
         }
@@ -77,7 +78,7 @@ app.get('/books/edit/:id', function (req, res) {
 
     const query = `SELECT * FROM books WHERE idbooks = ${id}`
 
-    connection.query(query, function (err, data) {
+    pool.query(query, function (err, data) {
         if (err) {
             console.log(err)
         }
@@ -97,7 +98,7 @@ app.post('/books/updatebook', function (req, res) {
 
     const query = `UPDATE books SET title = '${title}', pageqty = ${pageqty} WHERE idbooks = ${id}`
 
-    connection.query(query, function (err) {
+    pool.query(query, function (err) {
         if (err) {
             console.log(err)
         }
@@ -111,7 +112,7 @@ app.post('/books/remove', function (req, res) {
 
     const query = `DELETE FROM books WHERE idbooks = ${id}`
 
-    connection.query(query, function (err) {
+    pool.query(query, function (err) {
         if (err) {
             console.log(err)
         }
@@ -120,20 +121,6 @@ app.post('/books/remove', function (req, res) {
     })
 })
 
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'nodemysql'
-});
-
-connection.connect((err) => {
-    if (err) {
-        console.log(err);
-        return;
-    }
-    console.log('Conectado ao banco de dados MySQL');
-});
 
 app.listen(3000, () => {
     console.log('Servidor rodando na porta 3000');
