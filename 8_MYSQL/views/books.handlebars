@@ -1,0 +1,28 @@
+<div class="nav-container">
+    <nav>
+        <ul>
+            <li><a href="/">Cadastrar livro</a></li>
+            <li><a href="/books">Listar livros</a></li>
+        </ul>
+    </nav>
+</div>
+<div class="container">
+    <h1>Livros disponíveis:</h1>
+    <div class="books-container">
+        {{#each books}}
+        <div class="book-item">
+            <div class="book-info">
+                #{{this.idbooks}} - <span class="bold"><a href="/books/{{this.idbooks}}">{{this.title}}</a></span>
+                - {{this.pageqty}} páginas
+            </div>
+            <div class="actions">
+                <a href="/books/edit/{{this.idbooks}}">Editar</a>
+                <form action="/books/remove" method="POST">
+                    <input type="hidden" name="id" value="{{this.idbooks}}">
+                    <input type="submit" value="Remover">
+                </form>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>
