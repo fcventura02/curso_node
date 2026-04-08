@@ -10,8 +10,17 @@
     <h1>Livros disponíveis:</h1>
     <div class="books-container">
         {{#each books}}
-        <div>#{{this.idbooks}} - <span class="bold"><a href="/books/{{this.idbooks}}">{{this.title}}</a></span>
-            - {{this.pageqty}} páginas
+        <div class="book-item">
+            <div class="book-info">
+                #{{this.idbooks}} - <span class="bold"><a href="/books/{{this.idbooks}}">{{this.title}}</a></span>
+                - {{this.pageqty}} páginas
+            </div>
+            <div class="actions">
+                <a href="/books/edit/{{this.idbooks}}">Editar</a>
+                <form action="/books/remove/{{this.idbooks}}" method="POST">
+                    <input type="submit" value="Remover">
+                </form>
+            </div>
         </div>
         {{/each}}
     </div>

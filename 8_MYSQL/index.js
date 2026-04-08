@@ -72,6 +72,40 @@ app.get('/books/:id', function (req, res) {
     })
 })
 
+app.get('/books/edit/:id', function (req, res) {
+    const id = req.params.id
+
+    const query = `SELECT * FROM books WHERE idbooks = ${id}`
+
+    connection.query(query, function (err, data) {
+        if (err) {
+            console.log(err)
+        }
+
+        const book = data[0]
+
+        console.log(data[0])
+
+        res.render('editbook', { book })
+    })
+})
+
+app.post('/books/updatebook', function (req, res) {
+    const id = req.body.id
+    const title = req.body.title
+    const pageqty = req.body.pageqty
+
+    const query = `UPDATE books SET title = '${title}', pageqty = ${pageqty} WHERE idbooks = ${id}`
+
+    connection.query(query, function (err) {
+        if (err) {
+            console.log(err)
+        }
+
+        res.redirect(`/books/${id}`)
+    })
+})
+
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
