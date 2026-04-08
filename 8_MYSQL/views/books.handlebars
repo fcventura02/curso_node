@@ -17,7 +17,8 @@
             </div>
             <div class="actions">
                 <a href="/books/edit/{{this.idbooks}}">Editar</a>
-                <form action="/books/remove/{{this.idbooks}}" method="POST">
+                <form action="/books/remove" method="POST">
+                    <input type="hidden" name="id" value="{{this.idbooks}}">
                     <input type="submit" value="Remover">
                 </form>
             </div>
